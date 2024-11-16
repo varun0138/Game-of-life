@@ -31,7 +31,7 @@ These rules are applied simultaneously to every cell in the grid to determine th
 
 ## Demo
 Here’s a quick preview of the game:
-![Visualization](Gifs/demo2.gif)
+![Visualization](Gifs/demo3.gif)
 
 ## Building the Project
 **Note**: These instructions are specifically for Windows. For other platforms, adjust the paths and compilation steps accordingly.

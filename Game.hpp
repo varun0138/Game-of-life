@@ -28,6 +28,7 @@ private:
     std::unique_ptr<Slider> m_sizeSlider;
 
     std::unique_ptr<Button> m_startButton;
+    std::unique_ptr<Button> m_pauseButton;
     std::unique_ptr<Button> m_resetButton;
     std::unique_ptr<Button> m_noiseButton;
 

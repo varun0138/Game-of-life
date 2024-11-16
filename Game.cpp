@@ -1,11 +1,12 @@
 #include <SFML/Window/Event.hpp>
+#include <SFML/System/Sleep.hpp>
 #include <iostream>
 
 #include "Game.hpp"
 
 Game::Game() {
     m_window.create(sf::VideoMode(m_windowWidth, m_windowHeight), "Game of Life", sf::Style::Close | sf::Style::Titlebar);
-    m_window.setFramerateLimit(120);
+    // m_window.setFramerateLimit(15);
 
     if(!m_font.loadFromFile("./Fonts/Retron2000.ttf")) {
         std::cerr << "Error loading font file!!" << std::endl;
@@ -18,7 +19,8 @@ Game::Game() {
 
     m_startButton = std::make_unique<Button>(m_font, sf::Vector2f(850.0f, 200.0f),  sf::Vector2f(180.0f, 70.0f), 1.0f, "START", LIGHT);
     m_resetButton = std::make_unique<Button>(m_font, sf::Vector2f(1080.0f, 200.0f), sf::Vector2f(180.0f, 70.0f), 1.0f, "RESET", LIGHT);
-    m_noiseButton = std::make_unique<Button>(m_font, sf::Vector2f(930.0f, 300.0f), sf::Vector2f(270.0f, 70.0f), 1.0f, "ADD NOISE", LIGHT);
+    m_pauseButton = std::make_unique<Button>(m_font, sf::Vector2f(850.0f, 300.0f), sf::Vector2f(180.0f, 70.0f), 1.0f, "PAUSE", LIGHT);
+    m_noiseButton = std::make_unique<Button>(m_font, sf::Vector2f(1080.0f, 300.0f), sf::Vector2f(180.0f, 70.0f), 1.0f, "NOISE", LIGHT);
 }
 
 void Game::run() {
@@ -55,16 +57,10 @@ void Game::update() {
     }
 
     if(m_startButton->buttonClicked(mousePos)) {
-        if(m_startButton->getLabel() == "START") {
-            m_simulationStarted = true;
-            m_startButton->setLabel("PAUSE");
-            m_window.setFramerateLimit(15);
-        }
-        else if(m_startButton->getLabel() == "PAUSE") {
-            m_simulationStarted = false;
-            m_startButton->setLabel("START");
-            m_window.setFramerateLimit(120);
-        }
+        m_simulationStarted = true;
+    }
+    else if(m_pauseButton->buttonClicked(mousePos)) {
+        m_simulationStarted = false;
     }
     else if(m_resetButton->buttonClicked(mousePos) && !m_simulationStarted) {
         
@@ -75,6 +71,11 @@ void Game::update() {
 
     if(m_simulationStarted) {
         startSimulation();
+        m_sizeSlider->setMovement(false);
+        sf::sleep(sf::milliseconds(100));
+    }
+    else {
+        m_sizeSlider->setMovement(true);
     }
 }
 
@@ -88,6 +89,7 @@ void Game::render() {
 
     m_startButton->draw(m_window);
     m_resetButton->draw(m_window);
+    m_pauseButton->draw(m_window);
     m_noiseButton->draw(m_window);
 
     m_window.display();
