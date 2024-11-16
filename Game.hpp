@@ -5,21 +5,27 @@
 #include <memory>
 
 #include "Grid.hpp"
+#include "Gui/Slider.hpp"
+#include "Gui/Label.hpp"
 
 class Game {
 private:
     const unsigned int m_windowWidth = 1300;
-    const unsigned int m_windowHeight = 800;
+    const unsigned int m_windowHeight = 820;
 
-    sf::Vector2f m_gridPosition = { 5.0f, 5.0f };
-    sf::Vector2f m_gridSize = { 750.0f, 750.f };
+    sf::Vector2f m_gridPosition = { 10.0f, 10.0f };
+    sf::Vector2f m_gridSize = { 800.0f, 800.f };
 
     unsigned int m_rows = 30;
     unsigned int m_cols = 30;
 
     sf::RenderWindow m_window;
+    sf::Font m_font;
     std::unique_ptr<Grid> m_grid;
-    
+
+    std::unique_ptr<Label> m_sizeLabel;
+    std::unique_ptr<Slider> m_sizeSlider;
+
     void userInput();
     void update();
     void render();

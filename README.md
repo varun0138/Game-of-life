@@ -19,6 +19,8 @@ The game evolves based on the following rules applied to each cell in the grid:
 These rules are applied simultaneously to every cell in the grid to determine the next generation.
 
 ## Demo
+Here’s a quick preview of the game:
+![Visualization](Gifs/demo1.gif)
 
 ## Building the Project
 **Note**: These instructions are specifically for Windows. For other platforms, adjust the paths and compilation steps accordingly.
