@@ -43,7 +43,9 @@ bool Grid::validCoords(unsigned int row, unsigned int col) {
 }
 
 State Grid::getState(unsigned int row, unsigned int col) {
-    return m_cells[row][col];
+    if(validCoords(row, col)) {
+        return m_cells[row][col];
+    }
 }
 
 void Grid::draw(sf::RenderTarget& target) {
