@@ -1,5 +1,8 @@
 #include "Grid.hpp"
 
+#include <SFML/Window/Mouse.hpp>
+#include <iostream>
+
 Grid::Grid(const sf::Vector2f& pos, const sf::Vector2f& size, unsigned int rows, unsigned int cols) 
     : m_pos(pos), m_size(size) {
     
@@ -18,6 +21,18 @@ void Grid::setState(unsigned int row, unsigned int col, State state) {
     if(validCoords(row, col)) {
         m_cells[row][col] = state;
     } 
+}
+
+void Grid::update(const sf::Vector2i& mousePos) {
+    const unsigned int row = (mousePos.y - m_pos.y) / m_cellSize.y;
+    const unsigned int col = (mousePos.x - m_pos.x) / m_cellSize.x;
+
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left) && validCoords(row, col)) {
+        setState(row, col, ALIVE);
+    }
+    else if(sf::Mouse::isButtonPressed(sf::Mouse::Right) && validCoords(row, col)) {
+        setState(row, col, DEAD);
+    }
 }
 
 bool Grid::validCoords(unsigned int row, unsigned int col) {
@@ -43,7 +58,7 @@ void Grid::draw(sf::RenderTarget& target) {
                     break;
 
                 case ALIVE:
-                    m_cell.setFillColor(sf::Color(0, 255, 0, 255));
+                    m_cell.setFillColor(sf::Color(138, 204, 116, 255));
                     break;
             }
 

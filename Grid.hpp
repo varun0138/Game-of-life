@@ -26,6 +26,7 @@ public:
 
     void setUp(unsigned int rows, unsigned int cols);
     void setState(unsigned int row, unsigned int col, State state);
+    void update(const sf::Vector2i& mousePos);
 
     bool validCoords(unsigned int row, unsigned int col);
     State getState(unsigned int row, unsigned int col);

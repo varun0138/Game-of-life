@@ -31,7 +31,8 @@ void Game::userInput() {
 }
 
 void Game::update() {
-
+    const sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
+    m_grid->update(mousePos);
 }
 
 void Game::render() {
