@@ -5,6 +5,7 @@
 
 Game::Game() {
     m_window.create(sf::VideoMode(m_windowWidth, m_windowHeight), "Game of Life", sf::Style::Close | sf::Style::Titlebar);
+    m_window.setFramerateLimit(120);
 
     if(!m_font.loadFromFile("./Fonts/Retron2000.ttf")) {
         std::cerr << "Error loading font file!!" << std::endl;
@@ -46,24 +47,34 @@ void Game::update() {
     const sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
     m_grid->update(mousePos);
 
-    if(m_sizeSlider->isHandleMoved()) {
-        m_grid->setUp(m_sizeSlider->getCurrentValue(), m_sizeSlider->getCurrentValue());
-        m_sizeLabel->caption = "SIZE: " + std::to_string(m_sizeSlider->getCurrentValue());
+    m_rows = m_cols = m_sizeSlider->getCurrentValue();
+
+    if(m_sizeSlider->isHandleMoved() && !m_simulationStarted) {
+        m_grid->setUp(m_rows, m_cols);
+        m_sizeLabel->caption = "SIZE: " + std::to_string(m_rows);
     }
 
     if(m_startButton->buttonClicked(mousePos)) {
         if(m_startButton->getLabel() == "START") {
+            m_simulationStarted = true;
             m_startButton->setLabel("PAUSE");
+            m_window.setFramerateLimit(15);
         }
         else if(m_startButton->getLabel() == "PAUSE") {
+            m_simulationStarted = false;
             m_startButton->setLabel("START");
+            m_window.setFramerateLimit(120);
         }
     }
-    else if(m_resetButton->buttonClicked(mousePos)) {
+    else if(m_resetButton->buttonClicked(mousePos) && !m_simulationStarted) {
         
     }
-    else if(m_noiseButton->buttonClicked(mousePos)) {
+    else if(m_noiseButton->buttonClicked(mousePos) && !m_simulationStarted) {
         
+    }
+
+    if(m_simulationStarted) {
+        startSimulation();
     }
 }
 
@@ -82,3 +93,38 @@ void Game::render() {
     m_window.display();
 }
 
+void Game::startSimulation() {
+    static std::vector<std::vector<State>> temp = std::vector<std::vector<State>>(m_rows, std::vector<State>(m_cols, DEAD));
+
+    for(unsigned int y = 0; y < m_rows; y++) {
+        for(unsigned int x = 0; x < m_cols; x++) {
+            temp[y][x] = m_grid->getState(y, x);
+        }
+    }
+
+    for(unsigned int y = 0; y < m_rows; y++) {
+        for(unsigned int x = 0; x < m_cols; x++) {
+            unsigned int neighbours = countNeighbours(temp, y, x);
+            if(neighbours < 2 || neighbours > 3) {
+                m_grid->setState(y, x, DEAD);
+            }
+            else if(neighbours == 3) {
+                m_grid->setState(y, x, ALIVE);
+            }
+        }
+    }
+}
+
+unsigned int Game::countNeighbours(const std::vector<std::vector<State>>& cells, unsigned int row, unsigned int col) {
+    unsigned int count = 0;
+    static const std::vector<sf::Vector2i> directions = { {-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {1, -1}, {-1, 1}, {1, 1} };
+
+    for(unsigned int i = 0; i < directions.size(); i++) {
+        int neighbourRow = (row + directions[i].x + m_rows) % m_rows;
+        int neighboutCol = (col + directions[i].y + m_cols) % m_cols;
+
+        count += cells[neighbourRow][neighboutCol];
+    }
+
+    return count;
+}

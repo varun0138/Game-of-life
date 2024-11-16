@@ -46,6 +46,7 @@ State Grid::getState(unsigned int row, unsigned int col) {
     if(validCoords(row, col)) {
         return m_cells[row][col];
     }
+    return DEAD;
 }
 
 void Grid::draw(sf::RenderTarget& target) {

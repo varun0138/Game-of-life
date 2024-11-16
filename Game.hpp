@@ -31,6 +31,11 @@ private:
     std::unique_ptr<Button> m_resetButton;
     std::unique_ptr<Button> m_noiseButton;
 
+    bool m_simulationStarted = false;
+
+    void startSimulation();
+    unsigned int countNeighbours(const std::vector<std::vector<State>>& cells, unsigned int row, unsigned int col);
+
     void userInput();
     void update();
     void render();
