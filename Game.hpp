@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "Grid.hpp"
+#include "Random.hpp"
 #include "Gui/Slider.hpp"
 #include "Gui/Label.hpp"
 #include "Gui/Button.hpp"
@@ -22,6 +23,8 @@ private:
 
     sf::RenderWindow m_window;
     sf::Font m_font;
+    Random m_random;
+
     std::unique_ptr<Grid> m_grid;
 
     std::unique_ptr<Label> m_sizeLabel;
@@ -36,6 +39,7 @@ private:
 
     void startSimulation();
     unsigned int countNeighbours(const std::vector<std::vector<State>>& cells, unsigned int row, unsigned int col);
+    void addNoise();
 
     void userInput();
     void update();

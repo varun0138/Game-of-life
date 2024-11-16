@@ -63,10 +63,11 @@ void Game::update() {
         m_simulationStarted = false;
     }
     else if(m_resetButton->buttonClicked(mousePos) && !m_simulationStarted) {
-        
+        m_grid->setUp(m_rows, m_cols);
     }
     else if(m_noiseButton->buttonClicked(mousePos) && !m_simulationStarted) {
-        
+        m_grid->setUp(m_rows, m_cols);
+        addNoise();
     }
 
     if(m_simulationStarted) {
@@ -129,4 +130,13 @@ unsigned int Game::countNeighbours(const std::vector<std::vector<State>>& cells,
     }
 
     return count;
+}
+
+void Game::addNoise() {
+    for(unsigned int i = 0; i < (m_rows * m_cols) / 8; i++) {
+        unsigned int row = m_random.randint(0, m_rows);
+        unsigned int col = m_random.randint(0, m_cols);
+
+        m_grid->setState(row, col, ALIVE);
+    }
 }
