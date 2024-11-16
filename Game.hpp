@@ -7,6 +7,7 @@
 #include "Grid.hpp"
 #include "Gui/Slider.hpp"
 #include "Gui/Label.hpp"
+#include "Gui/Button.hpp"
 
 class Game {
 private:
@@ -25,6 +26,10 @@ private:
 
     std::unique_ptr<Label> m_sizeLabel;
     std::unique_ptr<Slider> m_sizeSlider;
+
+    std::unique_ptr<Button> m_startButton;
+    std::unique_ptr<Button> m_resetButton;
+    std::unique_ptr<Button> m_noiseButton;
 
     void userInput();
     void update();

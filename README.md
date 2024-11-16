@@ -4,6 +4,17 @@ Conway's Game of Life is a cellular automaton devised by mathematician John Conw
 
 ## Features
 
+- **Interactive Grid Controls**:
+Users can visually interact with the grid to toggle cell states, enabling intuitive initial state setup.
+
+- **Adjustable Grid Size**:
+Use the size slider to dynamically adjust the number of cells in the grid.
+
+- **Simulation Controls**:
+   - **Start/Pause**: Begin or pause the simulation with a single click.
+   - **Reset**: Clear the grid and reset the simulation to its initial state.
+   - **Noise Generator**: Add random noise to the grid.
+
 ## Rules of the Game
 
 The game evolves based on the following rules applied to each cell in the grid:
@@ -20,7 +31,7 @@ These rules are applied simultaneously to every cell in the grid to determine th
 
 ## Demo
 Here’s a quick preview of the game:
-![Visualization](Gifs/demo1.gif)
+![Visualization](Gifs/demo2.gif)
 
 ## Building the Project
 **Note**: These instructions are specifically for Windows. For other platforms, adjust the paths and compilation steps accordingly.
@@ -55,10 +66,10 @@ Here’s a quick preview of the game:
    SFML_LIB = C:/SFML-2.6.1/lib
 
    compile:
-      g++ -c *.cpp -std=c++17 -g -Wall -m64 -I ${SFML_INCLUDE} -DSFML_STATIC
+      g++ -c *.cpp Gui/*.cpp -std=c++17 -g -Wall -m64 -I $(SFML_INCLUDE) -DSFML_STATIC 
 
    link:
-      g++ *.o -o main -L ${SFML_LIB}  -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 
+      g++ *.o -o main -L $(SFML_LIB) -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32 
 
    clean:
       del *.o *.exe
